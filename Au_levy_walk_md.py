@@ -98,6 +98,10 @@ def my_update(mode,dt,num):
                                   seed=123,
                                   f_lst=F_active,
                                   orientation_link=False)
+
+
+            #hoomd.md.force._force
+
             #force.enable()
             #print('levy setting')
 
@@ -129,5 +133,5 @@ if __name__ == '__main__':
     init_intgrate, logger= my_init(params['dt'])
     init_intgrate.disable(); logger.disable()
     print('init finished')
-    my_update(mode='levy',dt=params['dt'],num=particles_N)
+    my_update(mode='all',dt=params['dt'],num=particles_N)
     print('finished')

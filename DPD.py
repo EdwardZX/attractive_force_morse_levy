@@ -2,10 +2,11 @@ import hoomd
 import hoomd.md
 
 
-hoomd.context.initialize("")
+hoomd.context.initialize("--mode=cpu")
 
 
 snapshot = hoomd.data.make_snapshot(N=10,
+                                    #box=hoomd.data.boxdim(Lx=10, Ly=0.5, Lz=0.5),
                                     box=hoomd.data.boxdim(Lx=10, Ly=0.5, Lz=0.5),
                                     particle_types=['A', 'B'],
                                     bond_types=['polymer'])
@@ -28,6 +29,7 @@ snapshot.bonds.group[:] = [[0,1], [1, 2], [2,3],
 
 
 snapshot.replicate(1,20,20)
+#snapshot.box = hoomd.data.boxdim(Lx=20, Ly=20, Lz=20)
 hoomd.init.read_snapshot(snapshot)
 
 nl = hoomd.md.nlist.cell()
@@ -42,7 +44,7 @@ harmonic = hoomd.md.bond.harmonic()
 harmonic.bond_coeff.set('polymer', k=100.0, r0=0)
 
 
-hoomd.md.integrate.mode_standard(dt=0.01)
+hoomd.md.integrate.mode_standard(dt=1e-2)
 all = hoomd.group.all()
 integrator = hoomd.md.integrate.nve(group=all)#hoomd.group.type('B'))
 
